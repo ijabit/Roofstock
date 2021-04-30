@@ -19,7 +19,7 @@ namespace RoofstockSolution.Controllers
         [HttpGet]
         public async Task<IEnumerable<Property>> Get()
         {
-            var result = await _context.Properties.Include(x => x.Lease.LeaseSummary).ToListAsync();
+            var result = await _context.Properties.Include(x => x.Lease).ToListAsync();
             return result;
         }
     }
