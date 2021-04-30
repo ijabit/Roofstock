@@ -76,15 +76,24 @@
 
                             <v-card-text v-if="item.financial && item.lease">
                                 List Price ${{ item.financial.listPrice.toFixed(2) }} <br>
-                                Monthly Rent ${{ item.lease.leaseSummary.monthlyRent.toFixed(2) }}
+                                <v-text-field
+                                    class="pt-3"
+                                    type="number"
+                                    label="Monthly Rent"
+                                    v-model="item.lease.leaseSummary.monthlyRent"
+                                    prefix="$"
+                                    outlined
+                                    color
+                                ></v-text-field>
                             </v-card-text>
 
                             <v-card-actions>
                                 <v-btn
                                     color="deep-purple lighten-2"
                                     text
+                                    @click="updateRentClicked(item)"
                                 >
-                                    Invest
+                                    Save
                                 </v-btn>
                             </v-card-actions>
                         </v-card>
@@ -113,7 +122,7 @@ export default Vue.extend({
                 }
 
                 response.json().then((json) => {
-                    this.properties = json.properties;
+                    this.properties = json;
                     this.isLoading = false;
                 });
             })
@@ -166,6 +175,26 @@ export default Vue.extend({
         errorHandler(response: any) {
             this.dataFetchErrorMessage = response.message;
         },
+        updateRentClicked(property: Property) {
+            const updatedRent = property.lease?.leaseSummary?.monthlyRent;
+            if (typeof updatedRent === "undefined" || updatedRent == null) {
+                return;
+            }
+
+            fetch(`https://localhost:44316/properties/${property.id}/rent?updatedRent=${updatedRent}`, {
+                method: "POST",
+                mode: "cors",
+                cache: "no-cache",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        this.dataFetchErrorMessage = response.statusText;
+                    }
+                });
+        }
     },
     watch: {
         dataFetchErrorMessage(newValue: string) {
