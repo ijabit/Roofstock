@@ -103,7 +103,8 @@ import { Property } from "@/types/Property";
 export default Vue.extend({
     created() {
         fetch(
-            "https://samplerspubcontent.blob.core.windows.net/public/properties.json"
+            // "https://samplerspubcontent.blob.core.windows.net/public/properties.json"
+            "https://localhost:44316/properties"
         )
             .then((response) => {
                 if (!response.ok) {
