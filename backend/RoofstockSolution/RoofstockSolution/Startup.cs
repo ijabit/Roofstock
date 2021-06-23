@@ -67,6 +67,8 @@ namespace RoofstockSolution
 
 
 
+
+
             app.UseCors(CorsPolicyName);
             app.UseHttpsRedirection();
 
