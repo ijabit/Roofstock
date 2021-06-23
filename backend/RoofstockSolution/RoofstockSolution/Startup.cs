@@ -63,6 +63,7 @@ namespace RoofstockSolution
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RoofstockSolution v1"));
             }
 
+
             app.UseCors(CorsPolicyName);
             app.UseHttpsRedirection();
 
